@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view contentType="text/html">
+
+	<h:head>
+		<title>deneme_projeeee</title>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css" />
+		<link rel="shortcut icon"
+			href="#{request.contextPath}/images/favicon.ico" />
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+
+	<h:body>
+		<p:layout fullPage="true">
+			<p:layoutUnit id="top" position="north" size="130">
+				<div class="ui-widget ui-widget-header">
+					<h:form id="headerform">
+<!-- 						<h:graphicImage id="logo" title="deneme_projeeee" -->
+<!-- 							url="/images/deneme.png" style="margin:17px 130px;"> -->
+<!-- 						</h:graphicImage> -->
+					</h:form>
+				</div>
+			</p:layoutUnit>
+
+			<p:layoutUnit id="center" position="center">
+				<div id="content" class="ui-widget">
+					<div class="post" style="width:100%">
+					
+						<div style="clear:both">
+						<div style="margin-right:10%;float:right;width:30%">
+				
+				
+							<p:panel header="Giriş" id="pnl"
+								style="text-align:center; float:right; margin:70px 40px 50px 50px; width:350px;">
+								<form name='f' method='POST' action='j_spring_security_check'
+									id="xxx">
+									<p:growl id="growl" showDetail="true" />
+	
+									<c:if  test="${not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION']}">
+										<div class="errorblock" style="background:#C00;color:white" >
+											
+											${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+										</div>
+									</c:if>								
+	
+									<h:panelGrid columns="2" cellpadding="5" style="margin:20px;">
+										<h:outputLabel for="j_username"
+											value="Username"
+											style="font-weight:bolder;" />
+										<p:inputText autocomplete="off" value="#{j_username}" id="j_username"
+											required="true" label="j_username" />
+										<h:outputLabel for="j_password"
+											value="Password"
+											style="font-weight:bolder;" />
+										<p:keyboard id="j_password" value="#{j_password}"
+											required="true" label="password" password="true"
+											readOnly="true" autocomplete="off"
+											closeLabel="Close"
+											clearLabel="Clear"
+											backspaceLabel="Back" />
+										<div class="submit">
+											<h:commandButton type="submit" update="growl"
+												value="Login" />
+										</div>
+										
+									</h:panelGrid>
+									
+									<h:panelGrid columns="2" cellpadding="2" style="margin:10px;text-align: left">
+								    	<br />
+									    <p:graphicImage url="/kaptcha.jpg"/>
+									    <h:outputLabel value="Üst resimdeki yazıyı girin" style="font-weight:bolder;" />
+										<p:inputText autocomplete="off" value="#{j_captcha_response}" id="j_captcha_response"
+											required="true" label="j_captcha_response" />
+									</h:panelGrid>
+								</form>
+							</p:panel>
+						
+						</div>
+						<div style="margin-left:20%;float:left;width:40%">
+						
+							<p:panel id="remindtext"
+								style="text-align:left;  font-family:calibri; float:right; margin:30px 100px 20px 350px; width:500px; padding-left:0.5cm;">
+								
+									<p class="MsoNormal"><span style='font-size:11.0pt'>Hoşgeldiniz!</span></p>
+									
+							</p:panel>
+						
+						</div>
+						</div>
+					</div>
+				</div>
+			</p:layoutUnit>
+
+
+			<p:layoutUnit id="bottom" position="south" size="85">
+
+				<div id="footer" class="ui-widget ui-widget-header ui-corner-all">
+					<p class="copyright">
+						&copy;&nbsp;&nbsp;#{version.currentYear} &nbsp;&bull;&nbsp; <a
+							href="http://www.test.com">Testing Co. </a>#{messages['common.copyrighttext']}
+					</p>
+<!-- 					<h:outputFormat -->
+<!-- 						style="float: right; font-size: smaller; margin:0; padding:25px 0 0;" -->
+<!-- 						value="#{messages['login.footer.version']}"> -->
+<!-- 						<f:param value="#{version.specificationTitle}" /> -->
+<!-- 						<f:param value="#{version.specificationVersion}" /> -->
+<!-- 						<f:param value="#{version.buildNumber}" /> -->
+<!-- 					</h:outputFormat> -->
+				</div>
+			</p:layoutUnit>
+
+
+			<ui:insert name="status">
+				<p:ajaxStatus
+					style="width:32px;height:32px;display:block;position:fixed;right:0;top:0;">
+					<f:facet name="start">
+						<p:graphicImage value="/images/loading.gif" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+			</ui:insert>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>
