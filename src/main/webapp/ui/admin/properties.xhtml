@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/ui/ui.xhtml">
+
+	<ui:define name="content">
+		<h:form id="propform">
+
+			<p:growl id="propertiesgrowl" showDetail="true" globalOnly="false" autoUpdate="true" />			
+
+			<p:dataTable id="proptbl" var="property"
+				value="#{propertiesBean.propertyList}" rowKey="#{property}"
+				emptyMessage="#{messages['common.datatable.emptymessage']}"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+				rendered="#{not empty propertiesBean.propertyList}">
+
+				<f:facet name="header">
+					<h:outputText value="Özellik Tanımları" />
+				</f:facet>
+
+				<p:column sortBy="#{property.key}" filterBy="#{property.key}" style="width:20%">
+					<f:facet name="header">
+						<h:outputText value="Anahtar Adı" escape="false"
+							style="white-space:pre-line;width:60px" />
+					</f:facet>
+					<h:outputText value="#{property.key}">
+					</h:outputText>
+				</p:column>
+
+				<p:column style="width:35%">
+					<f:facet name="header">
+						<h:outputText value="Anahtar Değeri" escape="false" sortBy="#{property.value}" filterBy="#{property.value}"
+							style="white-space:pre-line;width:60px" />
+					</f:facet>
+					<h:outputText value="#{property.value}">
+					</h:outputText>
+				</p:column>
+				
+				<p:column style="width:35%">
+					<f:facet name="header">
+						<h:outputText value="Anahtar Açıklaması" escape="false" sortBy="#{property.keyExplanation}" filterBy="#{property.keyExplanation}"
+							style="white-space:pre-line;width:60px" />
+					</f:facet>
+					<h:outputText value="#{property.keyExplanation}">
+					</h:outputText>
+				</p:column>
+
+				<p:column style="width:5%">
+					<p:commandButton update=":propdialogpopup"
+						oncomplete="PF('propDialog').show()" icon="ui-icon-search" title="View">
+						<f:setPropertyActionListener value="#{property}"
+							target="#{propertiesBean.property}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+			
+			<br />
+			<br />
+			
+			<h:panelGroup layout="block" style="border: 0px; text-align: center;">
+				<p:commandButton id="newpropbtn" value="Yeni Özellik Ekle"
+					icon="ui-icon-search"
+					actionListener="#{propertiesBean.prepareNewProperty}"
+					oncomplete="PF('propDialog').show()" update=":propdialogpopup" />
+			</h:panelGroup>
+		</h:form>
+
+		<p:dialog id="propdialogpopup" header="Özellik Tanımı"
+			widgetVar="propDialog" resizable="false" showEffect="fade"
+			hideEffect="explode" modal="true" appendTo="@(body)" dynamic="true">
+			<h:form id="propdialogform">
+
+				<p:panelGrid columns="2" styleClass="grid" style="width:100%;">
+					<h:outputText value="Anahtar Adı" style="font-weight:bolder;" />
+					<p:inputText value="#{propertiesBean.property.key}" disabled="true" />
+
+					<h:outputText value="Değer" style="font-weight:bolder;" />
+					<p:inputText value="#{propertiesBean.property.value}" />
+					
+					<h:outputText value="Anahtar Açıklama" style="font-weight:bolder;" />
+					<p:inputText value="#{propertiesBean.property.keyExplanation}" />
+				</p:panelGrid>
+
+				<br />
+				<h:panelGroup layout="block"
+					style="border: 0px; text-align: center;">
+						<p:commandButton id="propsvnbtn" value="Kaydet"
+							actionListener="#{propertiesBean.saveProperty}" update=":propform :propform:propertiesgrowl"
+							onsuccess="PF('propDialog').hide()" />
+						<p:commandButton id="propdltbtn" value="Sil"
+							actionListener="#{propertiesBean.deleteProperty}" update=":propform :propform:propertiesgrowl"
+							onsuccess="PF('propDialog').hide()"
+							rendered="#{not empty propertiesBean.property.id}" />
+						<p:commandButton id="propcanceltbtn" value="Vazgeç"
+							onsuccess="PF('propDialog').hide()"
+							rendered="#{empty propertiesBean.property.id}" />	
+				</h:panelGroup>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

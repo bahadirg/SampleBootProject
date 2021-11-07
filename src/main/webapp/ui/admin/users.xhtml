@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/ui/ui.xhtml">
+
+	<ui:define name="content">
+		<h:form id="userform">
+		
+			<p:growl id="usersgrowl" showDetail="true" globalOnly="false" autoUpdate="true" /> 
+			
+			<p:panel id="mainpanel" header="#{messages['user.mainpanel.header']}">
+				<br></br>
+				<p:dataTable id="usertbl" var="user" value="#{userBean.userModel}"
+					paginator="true" rows="#{userBean.userModel.pageSize}"
+					paginatorPosition="bottom" lazy="true"
+					emptyMessage="Data yok" >
+
+
+					<f:facet name="header">
+						<h:outputText value="Kullanıcı Listesi" />
+					</f:facet>
+
+					<p:column sortBy="#{user.username}" filterBy="#{user.username}" style="width:30x">
+						<f:facet name="header">
+							<h:outputText
+								value="Kullanıcı Adı:" />
+						</f:facet>
+						<h:outputText value="#{user.username}" />
+					</p:column>
+					
+					<p:column sortBy="#{user.state}"   style="width:30x"
+						filterBy="#{user.state}"
+						filterOptions="#{userBean.userStateOptions}"
+						filterMatchMode="exact">
+						<f:facet name="header">
+							<h:outputText value="Durum:" />
+						</f:facet>
+						<h:outputText value="#{user.state}">
+							<f:converter converterId="EnumConverter"></f:converter>
+						</h:outputText>
+					</p:column>
+					
+					<p:column sortBy="#{user.role}"    style="width:30x"
+						filterBy="#{user.role}"
+						filterOptions="#{userBean.roleOptions}"
+						filterMatchMode="exact">
+						<f:facet name="header">
+							<h:outputText value="Rol:" />
+						</f:facet>
+						<h:outputText value="#{user.role}">
+							<f:converter converterId="EnumConverter"></f:converter>
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{user.firstName}" filterBy="#{user.firstName}" style="width:30x">
+						<f:facet name="header">
+							<h:outputText
+								value="Adı:" />
+						</f:facet>
+						<h:outputText value="#{user.firstName}" />
+					</p:column>
+
+					<p:column sortBy="#{user.lastName}" filterBy="#{user.lastName}"  style="width:30x">
+						<f:facet name="header">
+							<h:outputText
+								value="Soyadı:" />
+						</f:facet>
+						<h:outputText value="#{user.lastName}" />
+					</p:column>
+
+					<p:column sortBy="#{user.email}" filterBy="#{user.email}"   style="width:30x">
+						<f:facet name="header">
+							<h:outputText
+								value="Email:" />
+						</f:facet>
+						<h:outputText value="#{user.email}" />
+					</p:column>
+					
+					<p:column style="width:8%">
+						<p:commandButton update=":userform:editUserPopup" value="Güncelle"
+							oncomplete="PF('editUserPopupWgt').show()" icon="ui-icon-search" title="View">
+							<f:setPropertyActionListener value="#{user}" target="#{userBean.selectedUser}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column style="width:8%">
+						<p:commandButton update=":userform:deleteUserDialog" value="Sil" disabled="#{user.username eq 'system'}"
+							oncomplete="PF('deleteUserDialogWgt').show()" icon="ui-icon-close" title="View">
+							<f:setPropertyActionListener value="#{user}" target="#{userBean.selectedUser}" />
+						</p:commandButton>
+					</p:column>
+
+					<f:facet name="footer">
+						<h:outputFormat value="#{messages['user.usertbl.footer']}">
+							<f:param value="#{userBean.userModel.rowCount}" />
+						</h:outputFormat>
+					</f:facet>
+				</p:dataTable>
+
+				<p:blockUI block="usertbl" trigger="usertbl">
+        			#{messages['common.loading']}<br />
+					<p:graphicImage value="/images/ajax-loader.gif" />
+				</p:blockUI>
+				<p:panel style="text-align: center;">
+					<p:commandButton id="newUserBtn"
+						value="Yeni Kullanıcı"
+						actionListener="#{userBean.prepareForNewUser}"
+						update="newUserPopup" oncomplete="PF('newUserPopupWgt').show()">
+					</p:commandButton>
+				</p:panel>
+			</p:panel>
+
+			<p:dialog id="newUserPopup"
+				header="#{messages['user.newuserpopup.header']}"
+				widgetVar="newUserPopupWgt">
+				<p:panel id="newUserPopupMainPanel">
+					<p:panelGrid columns="2" style="width:100%;">
+
+						<h:outputText value="Kullanıcı Adı:" />
+						<p:inputText value="#{userBean.newUser.username}" />
+						
+						<h:outputText value="Adı:" />
+						<p:inputText value="#{userBean.newUser.firstName}" />
+						
+						<h:outputText value="Soyadı:" />
+						<p:inputText value="#{userBean.newUser.lastName}" />
+
+						<h:outputText value="Rol:" />
+						<p:selectOneMenu value="#{userBean.newUser.role}">
+							<f:selectItems value="#{userBean.newUserRoleOptions}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Durum:" />
+						<p:selectOneMenu value="#{userBean.newUser.state}">
+							<f:selectItems value="#{userBean.newUserStateOptions}" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Email:" />
+						<p:inputText value="#{userBean.newUser.email}" />
+					</p:panelGrid>
+					<p:panel style="text-align: center;">
+						<p:commandButton actionListener="#{userBean.saveNewUser}"
+							value="Kaydet" icon="ui-icon-disk"
+							oncomplete="PF('newUserPopupWgt').hide();" update="usertbl" />
+					</p:panel>
+				</p:panel>
+			</p:dialog>
+
+			<p:dialog id="editUserPopup"
+				header="#{messages['user.edituserpopup.header']}"
+				widgetVar="editUserPopupWgt">
+				<p:outputPanel autoUpdate="true">
+					<p:panelGrid columns="2" style="width:100%;"
+						rendered="#{not empty userBean.selectedUser}">
+						
+						<h:outputText value="Kullanıcı adı:" />
+						<p:inputText value="#{userBean.selectedUser.username}" disabled="#{userBean.selectedUser.username eq 'system'}" />
+						
+						<h:outputText value="Adı:" />
+						<p:inputText value="#{userBean.selectedUser.firstName}" />
+
+						<h:outputText value="Soyadı:" />
+						<p:inputText value="#{userBean.selectedUser.lastName}" />
+
+						<h:outputText value="Rol:" />
+						<p:selectOneMenu value="#{userBean.selectedUser.role}" disabled="#{userBean.selectedUser.username eq 'system'}">
+							<f:selectItems value="#{userBean.newUserRoleOptions}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Durum:" />
+						<p:selectOneMenu value="#{userBean.selectedUser.state}" disabled="#{userBean.selectedUser.username eq 'system'}">
+							<f:selectItems value="#{userBean.newUserStateOptions}" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Email:" />
+						<p:inputText value="#{userBean.selectedUser.email}" />
+					</p:panelGrid>
+					<p:panel style="text-align: center;">
+						<p:commandButton actionListener="#{userBean.saveSelectedUser}"
+							value="Güncelle" icon="ui-icon-disk"
+							oncomplete="PF('editUserPopupWgt').hide();" update="usertbl :userform:usersgrowl" />
+					</p:panel>
+				</p:outputPanel>
+			</p:dialog>
+
+			<p:confirmDialog id="deleteUserDialog"
+				message="Seçili kullanıcıyı silmek istediğinizden emin misiniz?"
+				header="#{messages['user.deleteuserconfirmdialog.header']}"
+				severity="alert" widgetVar="deleteUserDialogWgt" appendTo="@(body)">
+
+				<p:commandButton
+					value="Evet"
+					update="usertbl :userform:usersgrowl" oncomplete="PF('deleteUserDialogWgt').hide()"
+					actionListener="#{userBean.deleteUser}" />
+				<p:commandButton
+					value="Hayır"
+					onclick="PF('deleteUserDialogWgt').hide()" type="button" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
