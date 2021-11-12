@@ -28,6 +28,7 @@ import com.sampleapp.model.User;
 //Reference:
 //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result
 
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, CrudRepository<User, Long>, BaseRepository<User, Long>, UserRepositoryCustom  {
 	
