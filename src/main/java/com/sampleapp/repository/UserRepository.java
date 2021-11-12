@@ -18,6 +18,17 @@ import com.sampleapp.model.User;
 
 //ExtendedRepository is custom and optional
 
+//Automatic Query Generation: (with right naming)
+//https://www.baeldung.com/spring-data-derived-queries
+
+//@Query - Defining CUSTOM query with @Query annotation 
+//PAGINATION --- Pageable pageable = new PageRequest(page, size, Direction.valueOf(direction)
+//https://www.baeldung.com/spring-data-jpa-query
+
+//Reference:
+//https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result
+
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, CrudRepository<User, Long>, BaseRepository<User, Long>, UserRepositoryCustom  {
 	

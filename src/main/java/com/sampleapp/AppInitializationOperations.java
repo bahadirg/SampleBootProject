@@ -27,7 +27,7 @@ public class AppInitializationOperations implements ApplicationListener<Applicat
 	private PropertyRepository propertiesRepository;
 	
 	@Autowired
-    private UserRepository userRepository;
+        private UserRepository userRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -36,6 +36,7 @@ public class AppInitializationOperations implements ApplicationListener<Applicat
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		log.info("ApplicationListener#onApplicationEvent()");
 		Configurations.initProperties(propertiesRepository);
+		Configurations.refreshPropertyCacheFromDb(propertiesRepository);
 		createAdminUserIfNotExists();
 		log.info("ApplicationListener#completed!");
 	}

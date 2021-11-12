@@ -1,6 +1,5 @@
 
 
-	mvnw___cmd'yi mvnw.cmd  yap
 
 	http://localhost:9090/login.xhtml
 
