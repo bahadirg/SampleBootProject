@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+	<h:head>
+		<title>#{messages['projectname']}</title>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link rel="shortcut icon"
+			href="#{request.contextPath}/images/favicon.ico" />
+
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+
+	<h:body>
+	
+
+		<h:form id="headerform">
+			<p:growl id="growl" showDetail="true" />
+		</h:form>
+
+		<h:form id="globalBlockUIForm">
+			<p:blockUI block=":center" widgetVar="globalBlockUI">
+				İşleminiz yapılıyor, lütfen bekleyiniz... 
+				<br />
+				<p:graphicImage value="/images/ajax-loading/loading10.gif" style="margin-top:3px;" />
+			</p:blockUI>
+		</h:form>
+
+		<h:form id="idle">
+			<p:idleMonitor timeout="#{session.maxInactiveInterval * 1000 - 1000 }"
+						   onidle="PF('idleDialog').show()" />
+
+			<p:dialog header="ZAMAN AŞIMI" resizable="false" appendTo="@(body)"
+					  closable="false" draggable="false" widgetVar="idleDialog"
+					  modal="true" width="400">
+				<h:outputText value="Oturumunuz zaman aşımına uğradı. Devam etmek için lütfen " />
+				<a href="#{request.contextPath}/login.xhtml" style="color: red">tıklayınız...</a>
+			</p:dialog>
+		</h:form>
+
+		<p:layout id="layout" fullPage="true">
+			<p:layoutUnit id="center" position="center">
+				<h:panelGrid columns="3" style="width: 99%;">
+					<h:form id="topmenuform" style="float:left">
+						<p:spacer width="10"></p:spacer>
+						<p:commandButton id="dynaButton" value="Menü" type="button" />
+						<p:tieredMenu overlay="true" trigger="dynaButton" my="right top" at="right bottom">
+							<p:menuitem value="Ana Sayfa" outcome="/ui/user/home.xhtml" />
+							<p:submenu label="İşlemler">
+<!-- 								<p:menuitem value="Taksitlendirme" rendered="#{loggedinUserBean.isPortalUser and not loggedinUserBean.isOperationServer}"  outcome="/ui/ordinary/installment.xhtml" /> -->
+							</p:submenu>
+							<p:submenu label="Log Bilgileri" rendered="#{loggedinUserBean.isAdmin}">
+<!-- 								<p:menuitem value="Kullanıcı Logları" outcome="/ui/log/log.xhtml" /> -->
+<!-- 								<p:menuitem value="Oturum Logları" outcome="/ui/log/sessionLogs.xhtml" /> -->
+<!-- 								<p:menuitem value="Kimlik Doğrulama Logları" outcome="/ui/log/authenticationAttemptLogs.xhtml" /> -->
+<!-- 								<p:menuitem value="Batch Operasyon Logları" outcome="/ui/log/batchJobLogs.xhtml" /> -->
+							</p:submenu>
+							<p:menuitem value="Uygulama Ayarları" rendered="#{loggedinUserBean.isAdmin}" outcome="/ui/admin/properties.xhtml" />
+							<p:menuitem value="Kullanıcı Yönetimi" rendered="#{loggedinUserBean.isAdmin}" outcome="/ui/admin/users.xhtml" />
+						</p:tieredMenu>
+					</h:form>
+
+					<h:panelGroup layout="block" style="border: 0px; text-align: center;">
+						<p:spacer width="20"></p:spacer>
+						<h:outputLabel value="#{messages['projectname']}" style="font-weight:bold; font-size:20pt;" />
+					</h:panelGroup>
+
+					<h:panelGroup layout="block" style="border: 0px; float:right;">
+						<h:panelGrid columns="3">
+							<h:outputLabel value="KULLANICI ADI:" style="font-weight:bold;" />
+							<h:outputLabel value="#{loggedinUserBean.authUser.name}" />
+							<h:form>
+								<p:button value="#{messages['common.logoutlink.label']}"
+									href="/j_spring_security_logout" ajax="false"
+									icon="ui-icon-power">
+								</p:button>
+							</h:form>
+						</h:panelGrid>
+					</h:panelGroup>
+				</h:panelGrid>
+				
+				<p:separator id="separator" />
+				<div id="content" class="ui-widget">
+					<ui:insert name="content">...</ui:insert>
+				</div>
+			</p:layoutUnit>
+
+			<ui:insert name="status">
+				<p:ajaxStatus
+					style="width:32px;height:32px;display:block;position:fixed;right:0;top:0;">
+					<f:facet name="start">
+						<p:graphicImage value="/images/loading.gif" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+			</ui:insert>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>
