@@ -20,3 +20,4 @@
 	* cookie-secure / SSL-https ayari application.properties'e eklendi
 	* actuator endpoints (/actuator/health)
 	
+        xxxxx
