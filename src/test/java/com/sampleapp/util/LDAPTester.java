@@ -37,11 +37,19 @@ public class LDAPTester {
 			
 		////////////////////////////////////////
 		
+<<<<<<< HEAD
 		String host = "10.10.10.10";  //
 		String domain = "somedomain";
 		String username = "someuser";
 		String password = "kZkfNfTc228GTy3";
 		LDAPLoginVerifier ldapLoginVerifier = new LDAPLoginVerifier(host, port);   
+=======
+		String host = "10.6.96.11";  //TT
+		String domain = "TURKTELEKOM";
+		String username = "64519614";
+		String password = "kZkfNfTc228GTy3";
+		LDAPLoginVerifier ldapLoginVerifier = new LDAPLoginVerifier(host, port);   //"LDAP://10.6.96.16:389"
+>>>>>>> branch 'trunk' of https://github.com/bahadirg/SampleBootProject.git
 		boolean verificationResult = ldapLoginVerifier.verify(domain, username, password);
 		
 		System.out.println(" --- " + verificationResult);

@@ -27,6 +27,7 @@ public class AppInitializationOperations implements ApplicationListener<Applicat
 	private PropertyRepository propertiesRepository;
 	
 	@Autowired
+
     private UserRepository userRepository;
 	
 	@Autowired
