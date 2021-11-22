@@ -19,5 +19,6 @@
 	* Email gonderim (MailController.java)
 	* cookie-secure / SSL-https ayari application.properties'e eklendi
 	* actuator endpoints (/actuator/health)
-
 	
+	* .circleci folderi (Github circleci entegrasyonu icin)
+	* .mvn folderi github'in bazi pom'daki repository adreslerini bloklamamasi icin	
