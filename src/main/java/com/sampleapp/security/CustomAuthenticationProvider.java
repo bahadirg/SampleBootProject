@@ -68,9 +68,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 //			}
 			
 			
-			String host = "10.6.96.11";  //TT
-			String baseDn = "TURKTELEKOM"; //"turktelekom.intra";  //ou=personel,OU=telekom,DC=turktelekom,DC=intra
-//			String usern = "64519614";
+			String host = "10.10.10.10"; 
+			String baseDn = "somedomain"; //"somedomain.intra";  //ou=personel,OU=somedomain,DC=somedomain,DC=intra
+//			String usern = "someuser";
 //			String pass = "kZkfNfTc228GTy3";
 			String port = "389";
 			
