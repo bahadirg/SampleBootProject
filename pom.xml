@@ -122,6 +122,8 @@
 	</dependencies>
     
 	<build>
+		<!-- name of the war file -->
+		<finalName>SampleBootProject</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
