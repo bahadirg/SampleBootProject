@@ -22,3 +22,8 @@
 	
 	* .circleci folder (Github circleci integration)
 	* .mvn folder to avoid github blocking some repository address	
+	
+	dockerize:
+		docker build -t fbahadirg/samplebootproject .
+		docker run -it -d --publish 8081:8080 -v deneme_volume:/usr/local/tomcat/logs --name myapp fbahadirg/samplebootproject bash
+		
