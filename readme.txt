@@ -5,20 +5,20 @@
 
 	* Spring Boot + Primefaces + JSF
 	* Oracle db
-	* Otomatik db olusturma - hibernate
-	* Login sayfasi
-	* Kaptcha
-	* 4 ayri authentication (in memory, db, LDAP, custom) (SecurityConfiguration.java)
-	* Sayfa erisim kisitlamalari (SecurityConfiguration.java - securityContext.xml yerine)
-	* admin user olusturma (system) (AppInitializationOperations.java)
-	* User yonetim sayfasi
-	* Uygulama properties yonetim sayfasi
-	* LazyLoading - paging altyapi
-	* StartUp'da otomatik property olusturma (AppInitializationOperations.java)
+	* Auto db generation - hibernate
+	* Login page
+	* Captcha
+	* 4 types of authentication (in memory, db, LDAP, custom) (SecurityConfiguration.java)
+	* Page access limitations (SecurityConfiguration.java)
+	* Admin user auto-generation (system) (AppInitializationOperations.java)
+	* User management page
+	* Application properties management page
+	* LazyLoading - paging infrastructure
+	* Auto property generation during startUp (AppInitializationOperations.java)
 	* Jasypt password encryption
-	* Email gonderim (MailController.java)
-	* cookie-secure / SSL-https ayari application.properties'e eklendi
+	* Email sending (MailController.java)
+	* cookie-secure / SSL-https setting in application.properties
 	* actuator endpoints (/actuator/health)
 	
-	* .circleci folderi (Github circleci entegrasyonu icin)
-	* .mvn folderi github'in bazi pom'daki repository adreslerini bloklamamasi icin	
+	* .circleci folder (Github circleci integration)
+	* .mvn folder to avoid github blocking some repository address	
